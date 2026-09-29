@@ -1,0 +1,682 @@
+[
+  {
+    "treatment": "Knee Replacement",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 120000,
+    "typical_cost": 180000,
+    "max_cost": 250000
+  },
+  {
+    "treatment": "Knee Replacement",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 45000,
+    "typical_cost": 70000,
+    "max_cost": 95000
+  },
+  {
+    "treatment": "Knee Replacement",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 150000,
+    "typical_cost": 220000,
+    "max_cost": 300000
+  },
+  {
+    "treatment": "Knee Replacement",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 140000,
+    "typical_cost": 200000,
+    "max_cost": 280000
+  },
+  {
+    "treatment": "Cataract Surgery",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 25000,
+    "typical_cost": 40000,
+    "max_cost": 65000
+  },
+  {
+    "treatment": "Cataract Surgery",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 8000,
+    "typical_cost": 15000,
+    "max_cost": 22000
+  },
+  {
+    "treatment": "Cataract Surgery",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 30000,
+    "typical_cost": 45000,
+    "max_cost": 75000
+  },
+  {
+    "treatment": "Cataract Surgery",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 28000,
+    "typical_cost": 42000,
+    "max_cost": 70000
+  },
+  {
+    "treatment": "Appendectomy",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 50000,
+    "typical_cost": 85000,
+    "max_cost": 130000
+  },
+  {
+    "treatment": "Appendectomy",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 15000,
+    "typical_cost": 25000,
+    "max_cost": 40000
+  },
+  {
+    "treatment": "Appendectomy",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 65000,
+    "typical_cost": 100000,
+    "max_cost": 150000
+  },
+  {
+    "treatment": "Appendectomy",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 60000,
+    "typical_cost": 95000,
+    "max_cost": 140000
+  },
+  {
+    "treatment": "CABG",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 220000,
+    "typical_cost": 320000,
+    "max_cost": 450000
+  },
+  {
+    "treatment": "CABG",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 80000,
+    "typical_cost": 120000,
+    "max_cost": 180000
+  },
+  {
+    "treatment": "CABG",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 250000,
+    "typical_cost": 380000,
+    "max_cost": 500000
+  },
+  {
+    "treatment": "CABG",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 230000,
+    "typical_cost": 340000,
+    "max_cost": 470000
+  },
+  {
+    "treatment": "Angioplasty",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 110000,
+    "typical_cost": 160000,
+    "max_cost": 220000
+  },
+  {
+    "treatment": "Angioplasty",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 50000,
+    "typical_cost": 75000,
+    "max_cost": 100000
+  },
+  {
+    "treatment": "Angioplasty",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 130000,
+    "typical_cost": 190000,
+    "max_cost": 260000
+  },
+  {
+    "treatment": "Angioplasty",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 120000,
+    "typical_cost": 175000,
+    "max_cost": 240000
+  },
+  {
+    "treatment": "Hip Replacement",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 130000,
+    "typical_cost": 195000,
+    "max_cost": 270000
+  },
+  {
+    "treatment": "Hip Replacement",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 50000,
+    "typical_cost": 75000,
+    "max_cost": 105000
+  },
+  {
+    "treatment": "Hip Replacement",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 160000,
+    "typical_cost": 230000,
+    "max_cost": 310000
+  },
+  {
+    "treatment": "Hip Replacement",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 150000,
+    "typical_cost": 215000,
+    "max_cost": 290000
+  },
+  {
+    "treatment": "Hernia Repair",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 45000,
+    "typical_cost": 70000,
+    "max_cost": 110000
+  },
+  {
+    "treatment": "Hernia Repair",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 12000,
+    "typical_cost": 22000,
+    "max_cost": 35000
+  },
+  {
+    "treatment": "Hernia Repair",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 55000,
+    "typical_cost": 85000,
+    "max_cost": 125000
+  },
+  {
+    "treatment": "Hernia Repair",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 50000,
+    "typical_cost": 78000,
+    "max_cost": 115000
+  },
+  {
+    "treatment": "C-Section",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 55000,
+    "typical_cost": 90000,
+    "max_cost": 140000
+  },
+  {
+    "treatment": "C-Section",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 15000,
+    "typical_cost": 25000,
+    "max_cost": 40000
+  },
+  {
+    "treatment": "C-Section",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 70000,
+    "typical_cost": 110000,
+    "max_cost": 160000
+  },
+  {
+    "treatment": "C-Section",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 65000,
+    "typical_cost": 100000,
+    "max_cost": 150000
+  },
+  {
+    "treatment": "Gallbladder Surgery",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 50000,
+    "typical_cost": 80000,
+    "max_cost": 120000
+  },
+  {
+    "treatment": "Gallbladder Surgery",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 15000,
+    "typical_cost": 24000,
+    "max_cost": 38000
+  },
+  {
+    "treatment": "Gallbladder Surgery",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 65000,
+    "typical_cost": 95000,
+    "max_cost": 135000
+  },
+  {
+    "treatment": "Gallbladder Surgery",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 60000,
+    "typical_cost": 88000,
+    "max_cost": 125000
+  },
+  {
+    "treatment": "Kidney Stone Surgery",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 40000,
+    "typical_cost": 65000,
+    "max_cost": 95000
+  },
+  {
+    "treatment": "Kidney Stone Surgery",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 10000,
+    "typical_cost": 18000,
+    "max_cost": 28000
+  },
+  {
+    "treatment": "Kidney Stone Surgery",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 50000,
+    "typical_cost": 80000,
+    "max_cost": 110000
+  },
+  {
+    "treatment": "Kidney Stone Surgery",
+    "city": "Delhi",
+    "hospital_type": "Private",
+    "min_cost": 45000,
+    "typical_cost": 72000,
+    "max_cost": 100000
+  },
+  {
+    "treatment": "Knee Replacement",
+    "city": "Mumbai",
+    "hospital_type": "Government",
+    "min_cost": 70000,
+    "typical_cost": 100000,
+    "max_cost": 140000
+  },
+  {
+    "treatment": "Knee Replacement",
+    "city": "Bangalore",
+    "hospital_type": "Private",
+    "min_cost": 140000,
+    "typical_cost": 200000,
+    "max_cost": 280000
+  },
+  {
+    "treatment": "Hip Replacement",
+    "city": "Bangalore",
+    "hospital_type": "Private",
+    "min_cost": 190000,
+    "typical_cost": 280000,
+    "max_cost": 380000
+  },
+  {
+    "treatment": "Cataract Surgery",
+    "city": "Bangalore",
+    "hospital_type": "Private",
+    "min_cost": 32000,
+    "typical_cost": 48000,
+    "max_cost": 75000
+  },
+  {
+    "treatment": "Appendectomy",
+    "city": "Bangalore",
+    "hospital_type": "Private",
+    "min_cost": 65000,
+    "typical_cost": 90000,
+    "max_cost": 130000
+  },
+  {
+    "treatment": "CABG",
+    "city": "Bangalore",
+    "hospital_type": "Private",
+    "min_cost": 280000,
+    "typical_cost": 400000,
+    "max_cost": 560000
+  },
+  {
+    "treatment": "Angioplasty",
+    "city": "Bangalore",
+    "hospital_type": "Private",
+    "min_cost": 170000,
+    "typical_cost": 250000,
+    "max_cost": 380000
+  },
+  {
+    "treatment": "Normal Delivery",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 40000,
+    "typical_cost": 60000,
+    "max_cost": 90000
+  },
+  {
+    "treatment": "Normal Delivery",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 5000,
+    "typical_cost": 9000,
+    "max_cost": 15000
+  },
+  {
+    "treatment": "Normal Delivery",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 50000,
+    "typical_cost": 75000,
+    "max_cost": 110000
+  },
+  {
+    "treatment": "C-Section Delivery",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 70000,
+    "typical_cost": 100000,
+    "max_cost": 150000
+  },
+  {
+    "treatment": "C-Section Delivery",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 90000,
+    "typical_cost": 120000,
+    "max_cost": 180000
+  },
+  {
+    "treatment": "Appendix Laparoscopy",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 70000,
+    "typical_cost": 100000,
+    "max_cost": 140000
+  },
+  {
+    "treatment": "Gallbladder Removal",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 80000,
+    "typical_cost": 110000,
+    "max_cost": 160000
+  },
+  {
+    "treatment": "Gallbladder Removal",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 90000,
+    "typical_cost": 130000,
+    "max_cost": 180000
+  },
+  {
+    "treatment": "Hernia Surgery",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 50000,
+    "typical_cost": 75000,
+    "max_cost": 110000
+  },
+  {
+    "treatment": "Hernia Surgery",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 60000,
+    "typical_cost": 88000,
+    "max_cost": 130000
+  },
+  {
+    "treatment": "Hernia Surgery",
+    "city": "Bangalore",
+    "hospital_type": "Private",
+    "min_cost": 55000,
+    "typical_cost": 82000,
+    "max_cost": 120000
+  },
+  {
+    "treatment": "Dialysis (per session)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 1500,
+    "typical_cost": 2500,
+    "max_cost": 4000
+  },
+  {
+    "treatment": "Dialysis (per session)",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 2000,
+    "typical_cost": 3200,
+    "max_cost": 5000
+  },
+  {
+    "treatment": "Chemotherapy (per cycle)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 20000,
+    "typical_cost": 45000,
+    "max_cost": 80000
+  },
+  {
+    "treatment": "Chemotherapy (per cycle)",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 25000,
+    "typical_cost": 55000,
+    "max_cost": 100000
+  },
+  {
+    "treatment": "Chemotherapy (per cycle)",
+    "city": "Bangalore",
+    "hospital_type": "Private",
+    "min_cost": 22000,
+    "typical_cost": 50000,
+    "max_cost": 90000
+  },
+  {
+    "treatment": "Fracture Surgery (ORIF)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 90000,
+    "typical_cost": 140000,
+    "max_cost": 200000
+  },
+  {
+    "treatment": "Fracture Surgery (ORIF)",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 100000,
+    "typical_cost": 160000,
+    "max_cost": 230000
+  },
+  {
+    "treatment": "Tonsillectomy",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 35000,
+    "typical_cost": 55000,
+    "max_cost": 80000
+  },
+  {
+    "treatment": "Tonsillectomy",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 40000,
+    "typical_cost": 62000,
+    "max_cost": 90000
+  },
+  {
+    "treatment": "Dengue (Inpatient)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 25000,
+    "typical_cost": 42000,
+    "max_cost": 70000
+  },
+  {
+    "treatment": "Dengue (Inpatient)",
+    "city": "Pune",
+    "hospital_type": "Government",
+    "min_cost": 5000,
+    "typical_cost": 9000,
+    "max_cost": 15000
+  },
+  {
+    "treatment": "Dengue (Inpatient)",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 30000,
+    "typical_cost": 50000,
+    "max_cost": 80000
+  },
+  {
+    "treatment": "Typhoid (Inpatient)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 20000,
+    "typical_cost": 35000,
+    "max_cost": 55000
+  },
+  {
+    "treatment": "COVID-19 (Inpatient, moderate)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 40000,
+    "typical_cost": 70000,
+    "max_cost": 120000
+  },
+  {
+    "treatment": "COVID-19 (Inpatient, moderate)",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 50000,
+    "typical_cost": 90000,
+    "max_cost": 150000
+  },
+  {
+    "treatment": "Cancer Surgery (Major)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 200000,
+    "typical_cost": 380000,
+    "max_cost": 600000
+  },
+  {
+    "treatment": "Cancer Surgery (Major)",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 250000,
+    "typical_cost": 450000,
+    "max_cost": 700000
+  },
+  {
+    "treatment": "Cataract Surgery (Both Eyes)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 55000,
+    "typical_cost": 85000,
+    "max_cost": 130000
+  },
+  {
+    "treatment": "Spinal Surgery",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 220000,
+    "typical_cost": 340000,
+    "max_cost": 500000
+  },
+  {
+    "treatment": "Spinal Surgery",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 260000,
+    "typical_cost": 400000,
+    "max_cost": 600000
+  },
+  {
+    "treatment": "Piles Surgery",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 45000,
+    "typical_cost": 68000,
+    "max_cost": 100000
+  },
+  {
+    "treatment": "Piles Surgery",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 50000,
+    "typical_cost": 78000,
+    "max_cost": 115000
+  },
+  {
+    "treatment": "Kidney Stone Removal",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 60000,
+    "typical_cost": 95000,
+    "max_cost": 140000
+  },
+  {
+    "treatment": "Kidney Stone Removal",
+    "city": "Mumbai",
+    "hospital_type": "Private",
+    "min_cost": 70000,
+    "typical_cost": 110000,
+    "max_cost": 160000
+  },
+  {
+    "treatment": "Cochlear Implant",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 500000,
+    "typical_cost": 700000,
+    "max_cost": 900000
+  },
+  {
+    "treatment": "Maternity Package (Normal)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 45000,
+    "typical_cost": 65000,
+    "max_cost": 95000
+  },
+  {
+    "treatment": "Maternity Package (C-Section)",
+    "city": "Pune",
+    "hospital_type": "Private",
+    "min_cost": 75000,
+    "typical_cost": 110000,
+    "max_cost": 160000
+  }
+]
