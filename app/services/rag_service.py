@@ -8,6 +8,7 @@ import logging
 import os
 import re
 from typing import Any
+from urllib import response
 
 import faiss
 import numpy as np
@@ -147,22 +148,154 @@ def _clean_json_text(text: str) -> str:
         text = re.sub(r"\s*```$", "", text)
     return text.strip()
 
+CRITICAL_RULES = """
+CRITICAL RULES:
+
+1. GROUNDING
+   Ground every part of the answer strictly in the retrieved policy evidence.
+   Do not use outside insurance knowledge to fill gaps.
+
+2. NO INVENTED INFORMATION
+   Never invent, assume, guess, or infer a policy value, duration, limit,
+   condition, exclusion, coverage rule, waiting period, deductible,
+   co-payment, sub-limit, or eligibility requirement that is not supported
+   by the retrieved evidence.
+
+3. DIRECT ANSWER
+   Answer the user's actual question directly first.
+   Do not avoid the question or provide unnecessary general insurance
+   explanations.
+
+4. EXPLICIT VS MISSING INFORMATION
+   Clearly distinguish between:
+   - information explicitly stated in the policy,
+   - information that can be determined from the retrieved evidence,
+   - information that is missing or not specified.
+
+5. PARTIAL ANSWERS
+   If the evidence only partially answers the question, provide the
+   information that IS supported and clearly explain what remains unknown
+   or unspecified.
+
+6. MULTIPLE POLICY CONDITIONS
+   When multiple conditions are relevant, explain how they relate to the
+   user's question.
+
+   Pay attention to distinctions such as:
+   - "subject to"
+   - "up to"
+   - "after"
+   - "before"
+   - "excluded"
+   - "limited to"
+   - "not covered"
+   - "not specified"
+
+7. WAITING PERIODS
+   If a waiting period is explicitly stated, report it exactly as supported
+   by the evidence.
+
+   Do not treat a general waiting period, such as a pre-existing disease
+   waiting period, as a procedure-specific waiting period unless the policy
+   explicitly connects them.
+
+8. COVERAGE
+   When answering coverage questions, check the evidence for all relevant
+   conditions, including:
+   - coverage statements
+   - exclusions
+   - waiting periods
+   - deductibles
+   - co-payments
+   - treatment-specific sub-limits
+   - room-rent limits
+   - eligibility conditions
+   - other policy restrictions
+
+9. POLICY TERMINOLOGY
+   Preserve the meaning and terminology used in the policy.
+   Do not replace policy wording with assumptions or general insurance rules.
+
+10. INSUFFICIENT INFORMATION
+    If the retrieved evidence does not contain enough information to answer
+    the question, explicitly state that the information is not specified or
+    cannot be determined from the uploaded policy.
+
+    Do not manufacture an answer just because the user expects one.
+
+11. CONFIDENCE
+    Assign confidence ONLY from the retrieved evidence:
+
+    High:
+    The retrieved evidence directly and clearly answers the question.
+
+    Medium:
+    The evidence supports the answer, but some relevant detail is incomplete
+    or requires careful interpretation.
+
+    Low:
+    Important information needed to answer the question is missing,
+    ambiguous, or insufficient.
+
+12. CITATIONS
+    Support factual claims with the most relevant retrieved policy evidence.
+
+    Citations must refer only to the supplied evidence.
+    Do not create citations for information that does not appear in the evidence.
+
+13. FINANCIAL CALCULATIONS
+    Do NOT perform arithmetic or calculate monetary amounts.
+    Do NOT estimate patient payment amounts inside the LLM response.
+
+    Financial calculations are handled separately by the deterministic
+    coverage engine.
+
+14. PATIENT-SPECIFIC INFORMATION
+    If the question depends on patient-specific information that is not
+    available in the evidence or request, clearly state what information is
+    missing instead of assuming it.
+
+15. NO OUTSIDE KNOWLEDGE
+    Even if you know a common insurance rule from general knowledge, do not
+    apply it unless it is supported by the retrieved policy evidence.
+
+16. EVIDENCE PRIORITY
+    The retrieved policy evidence has priority over assumptions,
+    general insurance knowledge, or expected policy behavior.
+
+17. RESPONSE QUALITY
+    Keep the answer clear, concise, factual, and easy for a patient to
+    understand while preserving the exact meaning of the policy.
+
+18. JSON OUTPUT
+    Return ONLY a valid JSON object matching the required schema.
+    Do not include Markdown, code fences, explanations outside the JSON,
+    or additional fields.
+
+19. DO NOT ADD UNSUPPORTED EXPLANATIONS
+    Do not add calculation methods, relationships between policy conditions,
+    or interpretations unless they are explicitly supported by the retrieved
+    evidence. When the user's question can be answered directly from one
+    policy statement, prefer that direct statement over additional inference.
+"""
 
 def _call_gemini_llm(question: str, evidence_chunks: list[dict]) -> dict | None:
     """
-    Call Google Gemini with strict prompt constraints.
+    Call Google Gemini with strict policy-grounding rules.
     Returns parsed dictionary or None if unavailable/fails.
     """
     api_key = os.getenv("GEMINI_API_KEY", "").strip()
+
     if not api_key or api_key == "your-gemini-api-key-here":
         return None
 
     try:
-        import google.generativeai as genai
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel("gemini-2.0-flash")
+        from google import genai
+
+        client = genai.Client(api_key=api_key)
 
         evidence_str = ""
+
         for i, chunk in enumerate(evidence_chunks, 1):
             evidence_str += (
                 f"\n--- EVIDENCE EXCERPT {i} ---\n"
@@ -172,24 +305,17 @@ def _call_gemini_llm(question: str, evidence_chunks: list[dict]) -> dict | None:
             )
 
         prompt = f"""You are an Insurance Policy Verification Assistant.
-You MUST answer the question using ONLY the retrieved policy evidence excerpts provided below.
 
-CRITICAL RULES:
-1. When asked whether a specific procedure (e.g. knee replacement) is covered:
-   - Check if covered under Hospitalization Coverage as a medically necessary hospitalization/surgical expense.
-   - Note if waiting periods apply (e.g., 12 months for specified procedures, 36/24 months for pre-existing diseases).
-   - Check if sub-limits or exclusions apply.
-2. When asked about pre-existing conditions (e.g. "I have a pre-existing condition and need knee replacement. What conditions apply?"):
-   - Identify that the policy requires 36 months (or stated waiting period) of continuous coverage for pre-existing disease expenses.
-   - Note that specified procedures also have a 12-month waiting period, deductible, and co-pay.
-   - If the user's continuous coverage duration is unknown, explicitly state that duration of continuous coverage is needed to determine eligibility.
-3. When asked about deductibles (e.g. "How much deductible will I have to pay for this treatment?"):
-   - State the policy deductible as ₹5,000 per claim as stated in the policy.
-   - State clearly that the ₹5,000 deductible is NOT necessarily the user's total final out-of-pocket cost, because out-of-pocket cost may also depend on co-payment, treatment sub-limits, and exclusions.
-4. If the policy does NOT contain information on a specific topic (e.g. robotic surgery), state:
-   "Insufficient information in the uploaded policy. The document does not contain coverage details for this specific topic." and set confidence to "Low".
-5. Do NOT perform arithmetic or calculate dollar amounts.
-6. Provide your output strictly as a valid JSON object matching this schema:
+{CRITICAL_RULES}
+
+RETRIEVED POLICY EVIDENCE:
+{evidence_str}
+
+QUESTION:
+{question}
+
+Provide your output strictly as a valid JSON object matching this schema:
+
 {{
     "answer": "<clear, factual explanation directly answering the question>",
     "confidence": "High" | "Medium" | "Low",
@@ -201,36 +327,184 @@ CRITICAL RULES:
         }}
     ]
 }}
+"""
+
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=prompt,
+        )
+
+        print("✅ GEMINI WAS CALLED")
+
+        print(
+            "Gemini raw response:",
+            response.text[:500] if response and response.text else "EMPTY"
+        )
+
+        if response and response.text:
+            cleaned = _clean_json_text(response.text)
+            parsed = json.loads(cleaned)
+
+            if "answer" in parsed:
+                return {
+                    "answer": str(
+                        parsed.get("answer", "")
+                    ).strip(),
+
+                    "confidence": str(
+                        parsed.get("confidence", "Medium")
+                    ).strip(),
+
+                    "citations": [
+                        {
+                            "page": int(
+                                c.get("page", 1)
+                            ),
+
+                            "section": str(
+                                c.get("section", "General")
+                            ),
+
+                            "text": str(
+                                c.get("text", "")
+                            ).strip(),
+                        }
+
+                        for c in parsed.get("citations", [])
+
+                        if c.get("text")
+                    ],
+                }
+
+    except Exception as e:
+        logger.warning(
+            "Gemini LLM call failed or returned unparseable output: %s",
+            e,
+        )
+
+    return None
+
+def _call_groq_llm(question: str, evidence_chunks: list[dict]) -> dict | None:
+    """
+    Fallback LLM call using Groq.
+
+    Uses the same policy-grounding rules, retrieved evidence,
+    and JSON response schema as the Gemini path.
+    """
+    api_key = os.getenv("GROQ_API_KEY", "").strip()
+
+    if not api_key:
+        return None
+
+    try:
+        from groq import Groq
+
+        client = Groq(api_key=api_key)
+
+        evidence_str = ""
+
+        for i, chunk in enumerate(evidence_chunks, 1):
+            evidence_str += (
+                f"\n--- EVIDENCE EXCERPT {i} ---\n"
+                f"Page: {chunk.get('page')}\n"
+                f"Section: {chunk.get('section', 'General')}\n"
+                f'Quote: "{chunk.get("text")}"\n'
+            )
+
+        prompt = f"""You are an Insurance Policy Verification Assistant.
+
+{CRITICAL_RULES}
 
 RETRIEVED POLICY EVIDENCE:
 {evidence_str}
 
 QUESTION:
 {question}
+
+Provide your output strictly as a valid JSON object matching this schema:
+
+{{
+    "answer": "<clear, factual explanation directly answering the question>",
+    "confidence": "High" | "Medium" | "Low",
+    "citations": [
+        {{
+            "page": <page number as integer>,
+            "section": "<section or heading title>",
+            "text": "<exact supporting quote from evidence>"
+        }}
+    ]
+}}
 """
-        response = model.generate_content(prompt)
-        if response and response.text:
-            cleaned = _clean_json_text(response.text)
+
+        response = client.chat.completions.create(
+            model="openai/gpt-oss-120b",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are an Insurance Policy Verification Assistant. "
+                        "Follow the supplied CRITICAL_RULES exactly and answer "
+                        "strictly from the retrieved policy evidence."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": prompt,
+                },
+            ],
+        )
+
+        raw_text = response.choices[0].message.content
+
+        print("🔄 GROQ FALLBACK WAS CALLED")
+
+        print(
+            "Groq raw response:",
+            raw_text[:500] if raw_text else "EMPTY"
+        )
+
+        if raw_text:
+            cleaned = _clean_json_text(raw_text)
             parsed = json.loads(cleaned)
+
             if "answer" in parsed:
                 return {
-                    "answer": str(parsed.get("answer", "")).strip(),
-                    "confidence": str(parsed.get("confidence", "Medium")).strip(),
+                    "answer": str(
+                        parsed.get("answer", "")
+                    ).strip(),
+
+                    "confidence": str(
+                        parsed.get("confidence", "Medium")
+                    ).strip(),
+
                     "citations": [
                         {
-                            "page": int(c.get("page", 1)),
-                            "section": str(c.get("section", "General")),
-                            "text": str(c.get("text", "")).strip(),
+                            "page": int(
+                                c.get("page", 1)
+                            ),
+
+                            "section": str(
+                                c.get("section", "General")
+                            ),
+
+                            "text": str(
+                                c.get("text", "")
+                            ).strip(),
                         }
+
                         for c in parsed.get("citations", [])
+
                         if c.get("text")
                     ],
                 }
+
     except Exception as e:
-        logger.warning("Gemini LLM call failed or returned unparseable output: %s", e)
+        logger.warning(
+            "Groq fallback failed or returned unparseable output: %s",
+            e,
+        )
 
     return None
-
 
 def _grounded_fallback(question: str, evidence_chunks: list[dict], top_similarity: float) -> dict:
     """
@@ -479,9 +753,17 @@ def query(question: str, policy_id: str | None = None, top_k: int = 4) -> dict:
             retrieved_chunks.append(chunks[idx])
 
     # 2. Try Gemini LLM first
+    # Primary LLM: Gemini
     llm_result = _call_gemini_llm(question, retrieved_chunks)
+
     if llm_result:
-        if not llm_result.get("citations") and llm_result.get("answer") != "Insufficient information in the uploaded policy.":
+        print("✅ ANSWER GENERATED BY GEMINI")
+
+        if (
+            not llm_result.get("citations")
+            and llm_result.get("answer")
+            != "Insufficient information in the uploaded policy."
+        ):
             llm_result["citations"] = [
                 {
                     "page": c.get("page", 1),
@@ -490,7 +772,35 @@ def query(question: str, policy_id: str | None = None, top_k: int = 4) -> dict:
                 }
                 for c in retrieved_chunks[:2]
             ]
+
         return llm_result
+
+
+    # Fallback LLM: Groq
+    llm_result = _call_groq_llm(question, retrieved_chunks)
+
+    if llm_result:
+        print("✅ ANSWER GENERATED BY GROQ")
+
+        if (
+            not llm_result.get("citations")
+            and llm_result.get("answer")
+            != "Insufficient information in the uploaded policy."
+        ):
+            llm_result["citations"] = [
+                {
+                    "page": c.get("page", 1),
+                    "section": c.get("section", "General"),
+                    "text": c.get("text", ""),
+                }
+                for c in retrieved_chunks[:2]
+            ]
+
+        return llm_result
+
+
+    # Existing fallback continues below this point
+    print("⚠️ USING EXISTING LOCAL FALLBACK")
 
     # 3. Robust grounded fallback
     return _grounded_fallback(question, retrieved_chunks, top_score)

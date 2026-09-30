@@ -19,4 +19,4 @@ uploads/*
 !uploads/.gitkeep
 .DS_Store
 *.log
-EOF
+EOF.Rhistory
