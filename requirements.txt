@@ -1,10 +1,18 @@
-fastapi==0.115.0
-uvicorn[standard]==0.30.6
-python-multipart==0.0.9
-pydantic==2.9.2
-aiofiles==23.2.1
-PyMuPDF==1.24.10
-faiss-cpu==1.8.0.post1
-sentence-transformers==3.1.1
-google-generativeai==0.8.3
-python-dotenv==1.0.1
+# Web Framework & Server
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+pydantic>=2.9.0
+aiofiles>=23.2.0
+python-dotenv>=1.0.0
+
+# PDF Parsing & Extraction
+PyMuPDF>=1.24.0
+
+# Vector Embeddings & Calculations
+numpy>=2.0,<3.0
+faiss-cpu>=1.8.0
+sentence-transformers>=3.1.0
+
+# Google Gemini LLM API (Optional)
+google-generativeai>=0.8.0
